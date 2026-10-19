@@ -1,0 +1,49 @@
+# Credentials and local environments
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Competition data: never publish
+data/raw/
+data/processed/
+data/index/
+data/external/
+
+# Local model caches and weights
+models/
+ollama/
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Generated vectors, indexes, fitted models and derived results
+*.npy
+*.npz
+*.faiss
+*.index
+*.joblib
+*.pkl
+*.parquet
+outputs/
+logs/
+runs/
+
+# Editors and OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Only synthetic public examples may be committed
+examples/private/
+examples/real_data/
+

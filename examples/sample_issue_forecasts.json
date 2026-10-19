@@ -1,0 +1,25 @@
+[
+  {
+    "issue_id": "SAMPLE_ISSUE_001",
+    "forecast_month": "2026-01",
+    "predicted_direction": "persistence",
+    "growth_probability": 0.54,
+    "predicted_mention_count": 3,
+    "spread_probability": 0.36,
+    "spread_level": "low",
+    "forecast_confidence": "low",
+    "forecast_narrative": "최근 합성 시계열의 언급량을 기준으로 다음 달 논의가 유지될 가능성을 예시로 표시합니다. 실제 예측 결과가 아닙니다."
+  },
+  {
+    "issue_id": "SAMPLE_ISSUE_002",
+    "forecast_month": "2026-01",
+    "predicted_direction": "attenuation",
+    "growth_probability": 0.31,
+    "predicted_mention_count": 1,
+    "spread_probability": 0.24,
+    "spread_level": "low",
+    "forecast_confidence": "low",
+    "forecast_narrative": "최근 합성 시계열의 감소 패턴을 이용한 화면 설명용 예측입니다. 실제 예측 결과가 아닙니다."
+  }
+]
+

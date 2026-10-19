@@ -1,0 +1,136 @@
+[
+  {
+    "issue_id": "SAMPLE_ISSUE_001",
+    "cluster_id": 0,
+    "issue_name": "저출생 대응 및 양육지원 확대",
+    "issue_summary": "출산·양육 부담 완화와 돌봄 지원 확대에 관한 합성 예시 이슈입니다.",
+    "policy_domain": "인구·복지",
+    "keywords": "저출생 | 출산지원 | 돌봄",
+    "review_status": "accepted_candidate",
+    "confidence": 0.91,
+    "first_observed_date": "2024-02-16",
+    "origin_councils": ["경기도의회"],
+    "observed_council_count": 3,
+    "observation_count": 12,
+    "last_observed_date": "2025-11-20",
+    "propagation_span_days": 643,
+    "propagation": [
+      {
+        "council": "경기도의회",
+        "first_date": "2024-02-16",
+        "lag_days": 0,
+        "mention_count": 5,
+        "mean_similarity": 0.78,
+        "propagation_order": 1,
+        "evidence": [
+          {
+            "meeting_date": "2024-02-16",
+            "meeting_name": "합성 본회의 회의록",
+            "agenda_title": "저출생 대응 정책",
+            "speaker_label": "합성 의원 A",
+            "evidence_ref": "SYNTHETIC_DOC_001:120-380",
+            "char_start": 120,
+            "char_end": 380,
+            "original_excerpt": "이 문장은 공개 데모 형식을 설명하기 위해 만든 합성 발언입니다. 출산과 양육 부담을 줄이기 위한 돌봄 지원 확대 방안을 논의합니다.",
+            "similarity": 0.82
+          }
+        ]
+      },
+      {
+        "council": "충청남도의회",
+        "first_date": "2024-06-12",
+        "lag_days": 117,
+        "mention_count": 4,
+        "mean_similarity": 0.74,
+        "propagation_order": 2,
+        "evidence": [
+          {
+            "meeting_date": "2024-06-12",
+            "meeting_name": "합성 복지위원회 회의록",
+            "agenda_title": "지역 맞춤형 돌봄",
+            "speaker_label": "합성 의원 B",
+            "evidence_ref": "SYNTHETIC_DOC_002:80-310",
+            "char_start": 80,
+            "char_end": 310,
+            "original_excerpt": "지역의 보육 공백을 줄이고 양육 가구가 체감할 수 있는 지원 체계를 마련하자는 합성 예시 발언입니다.",
+            "similarity": 0.77
+          }
+        ]
+      },
+      {
+        "council": "부산광역시의회",
+        "first_date": "2025-03-07",
+        "lag_days": 385,
+        "mention_count": 3,
+        "mean_similarity": 0.71,
+        "propagation_order": 3,
+        "evidence": [
+          {
+            "meeting_date": "2025-03-07",
+            "meeting_name": "합성 예산결산특별위원회 회의록",
+            "agenda_title": "출산·돌봄 예산",
+            "speaker_label": "합성 의원 C",
+            "evidence_ref": "SYNTHETIC_DOC_003:500-790",
+            "char_start": 500,
+            "char_end": 790,
+            "original_excerpt": "출산 지원 정책의 집행 효과와 돌봄 예산의 지속 가능성을 점검한다는 합성 예시 발언입니다.",
+            "similarity": 0.73
+          }
+        ]
+      }
+    ],
+    "monthly_series": [
+      {"month": "2024-02", "mention_count": 2, "council_count": 1, "new_council_count": 1, "new_councils": ["경기도의회"], "phase": "emergence"},
+      {"month": "2024-06", "mention_count": 3, "council_count": 2, "new_council_count": 1, "new_councils": ["충청남도의회"], "phase": "diffusion"},
+      {"month": "2024-11", "mention_count": 1, "council_count": 1, "new_council_count": 0, "new_councils": [], "phase": "attenuation"},
+      {"month": "2025-03", "mention_count": 4, "council_count": 2, "new_council_count": 1, "new_councils": ["부산광역시의회"], "phase": "diffusion"},
+      {"month": "2025-08", "mention_count": 2, "council_count": 2, "new_council_count": 0, "new_councils": [], "phase": "persistence"},
+      {"month": "2025-11", "mention_count": 3, "council_count": 2, "new_council_count": 0, "new_councils": [], "phase": "expansion"}
+    ],
+    "interpretation_note": "합성 예시이며 실제 의회 분석 결과가 아닙니다."
+  },
+  {
+    "issue_id": "SAMPLE_ISSUE_002",
+    "cluster_id": 1,
+    "issue_name": "교통약자 이동지원 서비스 개선",
+    "issue_summary": "교통약자 이동수단의 배차와 접근성 개선을 다루는 합성 예시입니다.",
+    "policy_domain": "교통",
+    "keywords": "교통약자 | 이동지원 | 배차",
+    "review_status": "accepted_candidate",
+    "confidence": 0.88,
+    "first_observed_date": "2024-04-03",
+    "origin_councils": ["서울특별시의회"],
+    "observed_council_count": 2,
+    "observation_count": 7,
+    "last_observed_date": "2025-10-14",
+    "propagation_span_days": 559,
+    "propagation": [
+      {
+        "council": "서울특별시의회",
+        "first_date": "2024-04-03",
+        "lag_days": 0,
+        "mention_count": 4,
+        "mean_similarity": 0.8,
+        "propagation_order": 1,
+        "evidence": [{"meeting_date": "2024-04-03", "meeting_name": "합성 교통위원회 회의록", "agenda_title": "이동지원센터 운영", "speaker_label": "합성 의원 D", "evidence_ref": "SYNTHETIC_DOC_004:20-260", "char_start": 20, "char_end": 260, "original_excerpt": "교통약자 이동지원 차량의 대기시간과 배차 체계를 개선하자는 합성 예시 발언입니다.", "similarity": 0.84}]
+      },
+      {
+        "council": "대전광역시의회",
+        "first_date": "2025-01-22",
+        "lag_days": 294,
+        "mention_count": 3,
+        "mean_similarity": 0.72,
+        "propagation_order": 2,
+        "evidence": [{"meeting_date": "2025-01-22", "meeting_name": "합성 산업건설위원회 회의록", "agenda_title": "교통약자 접근성", "speaker_label": "합성 의원 E", "evidence_ref": "SYNTHETIC_DOC_005:340-610", "char_start": 340, "char_end": 610, "original_excerpt": "예약 절차를 단순화하고 서비스 접근성을 높이자는 합성 예시 발언입니다.", "similarity": 0.75}]
+      }
+    ],
+    "monthly_series": [
+      {"month": "2024-04", "mention_count": 2, "council_count": 1, "new_council_count": 1, "new_councils": ["서울특별시의회"], "phase": "emergence"},
+      {"month": "2024-09", "mention_count": 2, "council_count": 1, "new_council_count": 0, "new_councils": [], "phase": "persistence"},
+      {"month": "2025-01", "mention_count": 2, "council_count": 1, "new_council_count": 1, "new_councils": ["대전광역시의회"], "phase": "diffusion"},
+      {"month": "2025-10", "mention_count": 1, "council_count": 1, "new_council_count": 0, "new_councils": [], "phase": "attenuation"}
+    ],
+    "interpretation_note": "합성 예시이며 실제 의회 분석 결과가 아닙니다."
+  }
+]
+
