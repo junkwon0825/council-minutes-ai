@@ -203,7 +203,16 @@ docker-compose.yml
 requirements.txt
 ```
 
-## Presentation\n\n최종 발표자료는 [presentation/README.md](presentation/README.md)에서 확인할 수 있습니다. 대용량 PPT 원본은 Drive 링크로 제공합니다.\n\n## Public Repository Policy
+## Presentation
+
+최종 발표자료는 GitHub 저장소에서 PDF로 바로 확인할 수 있습니다.
+
+- [의정이슈레이더 최종 발표자료 PDF](presentation/의정이슈레이더_최종발표.pdf)
+- [presentation 폴더 안내](presentation/README.md)
+
+PPT 원본은 저장소에 포함하지 않고, 공개 포트폴리오에는 확인이 쉬운 PDF만 유지합니다.
+
+## Public Repository Policy
 
 다음 항목은 GitHub에 올리지 않습니다.
 
