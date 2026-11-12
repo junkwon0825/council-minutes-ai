@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""로컬 Agent가 호출하는 회의록 검색 도구 계층."""
+"""내일 Agent가 호출할 수 있는 로컬 검색 도구 계층."""
 
 from __future__ import annotations
 
@@ -40,6 +40,8 @@ SEARCH_TOOL_SCHEMA = {
 
 @dataclass
 class CouncilAgentTools:
+    """외부 API 없이 검색 서비스를 Agent tool-call 형태로 노출한다."""
+
     search_service: CouncilSearchService
 
     def search_council_evidence(
@@ -57,11 +59,8 @@ class CouncilAgentTools:
             top_k=top_k,
             candidate_k=max(100, top_k * 10),
             filters=SearchFilters(
-                council=council,
-                year=year,
-                committee=committee,
-                date_from=date_from,
-                date_to=date_to,
+                council=council, year=year, committee=committee,
+                date_from=date_from, date_to=date_to,
             ),
             include_parent=True,
         )
