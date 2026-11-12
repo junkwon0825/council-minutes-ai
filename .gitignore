@@ -1,4 +1,4 @@
-# Credentials and local environments
+# Credentials / local env
 .env
 .env.*
 !.env.example
@@ -10,13 +10,32 @@ __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 
-# Competition data: never publish
+# Competition/private data
 data/raw/
 data/processed/
 data/index/
 data/external/
+data/embeddings/
+data/bm25/
+data/chroma/
+data/postgres/
+chroma_db/
+postgres_data/
 
-# Local model caches and weights
+# DB exports / vector artifacts
+*.dump
+*.sql
+*.sqlite
+*.sqlite3
+*.npy
+*.npz
+*.faiss
+*.index
+*.joblib
+*.pkl
+*.parquet
+
+# Model files
 models/
 ollama/
 *.gguf
@@ -25,25 +44,14 @@ ollama/
 *.pt
 *.pth
 
-# Generated vectors, indexes, fitted models and derived results
-*.npy
-*.npz
-*.faiss
-*.index
-*.joblib
-*.pkl
-*.parquet
+# Generated outputs
 outputs/
 logs/
 runs/
 
-# Editors and OS
+# OS / editor
 .DS_Store
 Thumbs.db
+*:Zone.Identifier
 .vscode/
 .idea/
-
-# Only synthetic public examples may be committed
-examples/private/
-examples/real_data/
-
