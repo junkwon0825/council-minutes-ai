@@ -1,0 +1,61 @@
+name: Extract final source bundle
+
+on:
+  push:
+    paths:
+      - '.source/final_source.zip'
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract verified final pipeline files
+        shell: python
+        run: |
+          import fnmatch
+          import pathlib
+          import shutil
+          import zipfile
+
+          archive = pathlib.Path(".source/final_source.zip")
+          wanted = [
+              "20_*", "21_*", "22_*", "23_*", "24_*",
+              "25_*", "25a_*", "26_*", "27_*",
+              "30_*", "31_*", "32_*", "32a_*", "33_*", "34_*",
+          ]
+          out = pathlib.Path("src")
+          out.mkdir(exist_ok=True)
+
+          with zipfile.ZipFile(archive) as zf:
+              selected = []
+              for name in zf.namelist():
+                  normalized = name.replace("\\", "/")
+                  if "/src/" not in normalized or not normalized.endswith(".py"):
+                      continue
+                  base = pathlib.PurePosixPath(normalized).name
+                  if any(fnmatch.fnmatch(base, pattern) for pattern in wanted):
+                      selected.append((normalized, base))
+
+              if not selected:
+                  raise SystemExit("No requested src/20-34 files found in archive.")
+
+              for source, base in sorted(selected):
+                  target = out / base
+                  target.write_bytes(zf.read(source))
+                  print(f"{source} -> {target}")
+
+          shutil.rmtree(".source")
+          pathlib.Path(".github/workflows/extract-final-source.yml").unlink()
+
+      - name: Commit extracted source
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: restore final analysis pipeline source 20-34"
+          git push
