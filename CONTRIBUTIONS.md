@@ -86,7 +86,34 @@
 - `src/08_llm_issue_labeling.py`
 - `src/09_build_issue_timeline.py`
 
-## 6. Local LLM / Web Integration
+## 6. Final Analysis Pipeline
+
+**주요 역할**
+- 검색·군집 결과를 정책 이슈 단위로 확장하고 타임라인으로 구조화
+- 예측 feature 생성 및 단일/다중 이슈 forecast 파이프라인 연결
+- 검수된 이슈를 최종 웹 payload/bundle로 변환
+- 자유 질의 분석 및 외부 후속 흐름을 서비스 레이어와 연결
+
+**관련 코드**
+- `src/20_expand_cluster_issue.py`
+- `src/21_build_issue_timeline.py`
+- `src/22_build_forecast_features.py`
+- `src/23_forecast_issue.py`
+- `src/24_build_web_payload.py`
+- `src/25_build_issue_candidates.py`
+- `src/25a_show_candidate_status.py`
+- `src/26_cluster_threshold_sweep.py`
+- `src/27_make_llm_extraction_evalset.py`
+- `src/30_finalize_reviewed_issues.py`
+- `src/31_build_multi_issue_panel.py`
+- `src/32_train_multi_issue_forecast.py`
+- `src/32a_external_followup_flow.py`
+- `src/33_analyze_free_query.py`
+- `src/34_build_final_web_bundle.py`
+
+> 28, 29 번호는 최종 소스에 별도 파일이 존재하지 않습니다.
+
+## 7. Local LLM / Web Integration
 
 **주요 역할**
 - 외부 상용 LLM 대신 로컬 모델 기반 답변 구조 검토
