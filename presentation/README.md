@@ -1,9 +1,8 @@
 # Presentation
 
-최종 발표자료는 Google Drive에 보관합니다.
+최종 발표자료는 GitHub에서 PDF로 바로 확인할 수 있습니다.
 
-- **의정이슈레이더_발표원문_최종본.pptx**
-- 원본 크기: 약 171 MB
-- Link: https://docs.google.com/presentation/d/1ytJsOBDnKm434ssyU3wn3rRJ40v60FSO/edit
+- [의정이슈레이더 최종 발표자료 PDF](./의정이슈레이더_최종발표.pdf)
+- PDF size: 약 1.98 MB
 
-GitHub 저장소에는 대용량 발표 원본 대신 재현 가능한 코드·문서·실험 근거만 유지합니다.
+대용량 PPT 원본은 저장소에 포함하지 않고, 공개 저장소에는 확인이 쉬운 PDF만 유지합니다.
