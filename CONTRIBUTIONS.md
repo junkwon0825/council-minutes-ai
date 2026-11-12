@@ -1,156 +1,250 @@
 # Contribution — Kwon Jun
 
-## Why this document exists
+## Project Context
 
-이 프로젝트는 5인 팀 프로젝트이며, 개발 과정에서 팀 저장소와 개인 로컬 작업본을 함께 사용했습니다.
-현재 공개 저장소의 최종 파이프라인은 대회 종료 후 **단일 snapshot commit**으로 정리되어 있어,
-Git history만으로 개인별 구현 범위를 정확히 확인하기 어렵습니다.
+2026 DATA·AI 분석 경진대회 5인 팀 프로젝트입니다.
 
-이를 보완하기 위해 초기 팀 저장소의 코드를
-`legacy/initial_team_pipeline/`에 보존하고, 제가 실제로 담당한 범위를 아래와 같이 정리합니다.
+개발 과정에서는 팀 저장소, 개인 로컬 작업본, 최종 제출용 통합 소스를 함께 사용했습니다.
+기존 팀 저장소의 commit author만으로 실제 구현 범위를 정확히 확인하기 어려웠기 때문에,
+현재 포트폴리오 저장소에서는 **담당 영역·관련 코드·실험 결과를 함께 표시**합니다.
 
-> 주의: 초기 팀 저장소의 commit author와 실제 코드 작성자가 항상 일치하지 않았습니다.
-> 따라서 기존 commit history를 개인 기여 증거로 재작성하지 않고, 원본 이력을 유지한 상태에서 담당 범위를 문서화합니다.
+기존 Git history를 개인 커밋처럼 재작성하지 않습니다.
 
-## My Primary Responsibilities
+---
 
-### 1. Data preprocessing / parsing
+## My Main Responsibilities
 
-- 지방의회 원본 JSON 내부 HTML에서 안건·화자·발언을 추출하는 전처리 흐름 구현 및 실험
-- CSS selector 기반 파싱 규칙 생성·정리
-- 텍스트 정규화, 의전성 문장 필터링, TSV 변환
-- 회의록별 메타데이터 구조화
+### 1. Data Preprocessing / Parsing
 
-Legacy related modules:
-- `legacy/initial_team_pipeline/scripts/1_split_sample.py`
-- `legacy/initial_team_pipeline/scripts/2_rules_make.py`
-- `legacy/initial_team_pipeline/scripts/3_rules_summary.py`
-- `legacy/initial_team_pipeline/scripts/4_to_csv.py`
-- `legacy/initial_team_pipeline/scripts/4_to_csv_2.py`
+- 지역별 JSON 내부 HTML 구조 확인 및 본문 추출
+- 안건·화자·발언 단위 파싱
+- 불필요한 HTML / 공백 / 중복 데이터 정리
+- 날짜·의회·회의명·안건·발언자 metadata 연결
+- canonical 데이터 생성을 위한 입력 검증
+
+관련 최종 코드:
+
+- `src/01_restart_inventory.py`
+- `src/02_probe_received_metadata.py`
+- `src/03_validate_row_id_join.py`
+- `src/04_build_direct_canonical.py`
+
+초기 코드:
+
+- `legacy/initial_team_pipeline/scripts/`
 - `legacy/initial_team_pipeline/src/parser.py`
 
-Final pipeline related modules:
-- `src/01_inventory.py`
-- `src/02_preprocess.py`
-- `src/03_make_chunks.py`
+### 2. Parent-Child Chunking
 
-### 2. Chunking / metadata structure
+- 작은 child chunk는 검색 단위로 사용
+- 큰 parent chunk는 검색 결과의 주변 문맥 복원에 사용
+- chunk ID / parent ID / source metadata 정합성 검증
 
-- 발언 단위 문맥을 유지하면서 긴 발언을 분리하는 청킹 구조 실험
-- date, assembly, speaker, agenda, source row 등 검색용 metadata 구조 정리
-- 초기 ChromaDB 적재를 위한 chunk / metadata 연결
+관련 코드:
 
-Legacy related modules:
-- `legacy/initial_team_pipeline/src/chunker.py`
-- `legacy/initial_team_pipeline/run_ingest.py`
+- `src/05_build_parent_child_chunks.py`
+- `src/05b_validate_chunks.py`
 
-### 3. ChromaDB ingestion / search experiment
+최종 기록 기준:
 
-- LangChain + HuggingFaceEmbeddings 기반 ChromaDB 적재 파이프라인 실험
-- batch 단위 vector store 적재
-- embedding model preset 및 collection 분리 구조 구성
-- natural language semantic search + metadata filter 확인
-- embedding dimension mismatch 등 실행 오류 처리
+- canonical rows: **2,057,214**
+- child chunks: **901,358**
 
-Legacy related modules:
-- `legacy/initial_team_pipeline/src/config.py`
-- `legacy/initial_team_pipeline/src/indexer.py`
-- `legacy/initial_team_pipeline/run_ingest.py`
-- `legacy/initial_team_pipeline/query_search.py`
+### 3. Embedding Model Selection / Large-scale Embedding
 
-> PostgreSQL/pgvector 비교 실험은 로컬 작업 파일을 추가 확인한 뒤 별도 문서에 반영할 예정입니다.
+한국어 지방의회 문서 검색에 사용할 embedding model을 비교했습니다.
 
-### 4. Embedding model selection
+검토 모델에는 Arctic Korean, KURE 등 한국어/다국어 embedding 후보가 포함됐으며,
+최종 파이프라인에서는:
 
-- 한국어 지방의회 회의록에 사용할 임베딩 모델 후보 비교
-- KURE, Ko-SBERT, KoSimCSE, BGE 계열 등 후보를 검토
-- 최종 파이프라인에서 `dragonkue/snowflake-arctic-embed-l-v2.0-ko` 사용
+`dragonkue/snowflake-arctic-embed-l-v2.0-ko`
 
-Related modules:
-- `src/04_embedding.py`
-- `src/04b_issue_embedding.py`
-- `src/04d_embed_selected.py`
-- `src/04e_semantic_text.py`
+를 사용했습니다.
 
-### 5. Large-scale embedding experiment
+관련 코드:
 
-- 전체 chunks: **460,431**
-- embedding target: **438,708**
-- precision: **bf16**
-- sequence length: **2048**
-- batch size: **8**
-- environment: **RTX 4060 Laptop**
-- throughput: **약 39.2 chunks/s**
-- output embedding file: **약 898 MB**
+- `src/06_make_embedding_eval_sample.py`
+- `src/07_embed_eval_sample.py`
+- `src/08_embed_full_corpus.py`
+- `src/10_compare_embedding_variants.py`
+- `src/11_build_embedding_model_pool.py`
+- `src/12_compare_embedding_models.py`
 
-실행 과정에서 batch size, precision, sequence length, GPU memory를 함께 고려했습니다.
+초기 대규모 실험:
 
-### 6. FAISS semantic search
+- 460,431 chunks
+- embedding 대상 438,708 chunks
+- bf16
+- sequence length 2048
+- batch size 8
+- RTX 4060 Laptop
+- 약 **39.2 chunks/s**
 
-- embedding vector normalization 및 similarity search 구조 확인
-- FAISS `IndexFlatIP` 기반 의미 검색 파이프라인 구축/검토
-- 검색 결과와 metadata를 연결해 후속 군집화 입력으로 구성
-- Dense retrieval만으로 부족한 고유명사·정책명을 보완하기 위해 BM25/RRF 검색 구조 실험
+### 4. Vector Database Experiment — ChromaDB vs PostgreSQL+pgvector
 
-Related modules:
-- `src/05_build_faiss.py`
-- `src/06_search_v2.py`
-- `src/10_issue_query.py`
+초기 ChromaDB pipeline을 구성한 뒤 PostgreSQL+pgvector와 실제 적재·검색 환경에서 비교했습니다.
 
-### 7. Clustering / issue discovery
+관련 코드:
 
-- 유사 발언 검색 결과에서 정책 이슈 후보를 묶는 흐름 실험
-- 검색 → 군집화 → 이슈 라벨링 단계 연결
-- 임베딩/검색 결과를 기반으로 정책 이슈 후보를 검토
+- `src/15_load_chroma.py`
+- `src/16_load_pgvector.py`
+- `src/17_benchmark_vector_databases.py`
 
-Related module:
-- `src/07_clustering.py`
+기록된 p50 latency:
 
-### 8. Local LLM experiment
+| Condition | ChromaDB | pgvector |
+|---|---:|---:|
+| Region + Year filter | 586.29 ms | **3.97 ms** |
+| No filter | **1.42 ms** | 2.75 ms |
 
-- 원문 외부 전송 금지 조건을 고려해 상용 API 대신 로컬 LLM 후보 비교
-- 초기 단계에서 로컬 LLM을 이용한 정책 category / core issue / keyword / summary 추출 실험
-- 최종 단계에서는 LLM이 검색·예측 결과를 임의 생성하지 않고 제공된 근거를 설명하는 역할로 제한
+단순 무필터 벡터 검색 성능만으로 DB를 선택하지 않았습니다.
 
-Legacy related modules:
-- `legacy/initial_team_pipeline/extract_llm_metadata.py`
-- `legacy/initial_team_pipeline/scripts/5_create_master_csv.py`
+최종 서비스에는:
 
-Final pipeline related module:
-- `src/08_llm_issue_labeling.py`
+- 지역 / 연도 / 위원회 metadata filter
+- SQL 기반 통계 집계
+- 관계형 metadata 관리
+- 웹 서비스 연동
 
-## Team Pipeline vs. My Contribution
+이 필요했기 때문에 **PostgreSQL + pgvector**를 최종 저장·검색 구조로 선택했습니다.
 
-| Pipeline | Team Project | My Main Contribution |
-|---|:---:|:---:|
-| Raw data inspection | ✓ | **Primary** |
-| HTML / text preprocessing | ✓ | **Primary** |
-| Parsing / metadata normalization | ✓ | **Primary** |
-| Chunking | ✓ | **Primary / experiment** |
-| ChromaDB ingestion / search | 초기 실험 | **Primary** |
-| Embedding model selection | ✓ | **Primary** |
-| Large-scale embedding | ✓ | **Primary** |
-| FAISS retrieval | ✓ | **Primary** |
-| BM25 / RRF retrieval | ✓ | **Primary / experiment** |
-| Clustering | ✓ | **Primary / experiment** |
-| Local LLM experiment | ✓ | **Primary / candidate comparison** |
-| Timeline construction | ✓ | 일부 참여 / 최종 통합 |
-| Forecasting | ✓ | 팀 파이프라인 |
-| Streamlit demo | ✓ | 별도 로컬 구현 경험, 최종 공개본은 팀 통합 |
+최종 DB 기록:
 
-## Evidence / provenance
+- PostgreSQL 17
+- pgvector 0.8.7
+- table: `council_arctic_raw_v1`
+- rows: **901,358**
+- DB size: 약 **12 GB**
 
-- `legacy/initial_team_pipeline/`은 초기 팀 저장소의 공개 코드 스냅샷입니다.
-- `src/`는 대회 종료 후 정리된 최종 통합 파이프라인입니다.
-- 기존 팀 저장소의 commit author가 개인별 실제 작성 범위를 완전히 반영하지 않아 commit history를 수정하지 않았습니다.
-- 로컬에 남아 있는 개인 작업 파일, 발표 자료, 실험 결과를 추가 확인해 증거 자료를 계속 보강할 예정입니다.
+### 5. Retrieval Pipeline
 
-## Going forward
+최종 retrieval은 단순 vector similarity search가 아니라
+dense + lexical 검색을 결합하는 구조로 확장했습니다.
 
-이후 팀 프로젝트에서는 다음 원칙을 적용합니다.
+```text
+Query
+ ↓
+Embedding
+ ↓
+pgvector HNSW dense retrieval
+ +
+BM25 / lexical retrieval
+ ↓
+RRF
+ ↓
+BGE Cross-Encoder reranking
+ ↓
+Deduplication
+ ↓
+Parent context recovery
+ ↓
+Evidence
+```
 
-- 개인 branch 사용
-- 기능 단위 commit
-- Pull Request 기반 통합
-- README에서 담당 모듈 명시
-- 실험 결과 및 재현 방법 기록
+관련 코드:
+
+- `src/18_pgvector_retrieval.py`
+- `src/19_rerank_candidates.py`
+- `src/35_build_bm25_index.py`
+- `src/bm25_runtime.py`
+- `src/council_vector_runtime.py`
+
+### 6. Issue Discovery / Clustering
+
+검색한 유사 발언을 seed로 이슈 후보를 확장하고,
+cosine similarity graph와 Union-Find를 이용해 연결 요소를 구성했습니다.
+
+관련 코드:
+
+- `src/20_expand_cluster_issue.py`
+- `src/25_build_issue_candidates.py`
+- `src/26_cluster_threshold_sweep.py`
+- `src/30_finalize_reviewed_issues.py`
+
+### 7. Timeline / Forecast
+
+이슈 구성원에 대해:
+
+- 최초 관측
+- 의회별 후속 관측
+- 월별 활동 의회 수
+- 월별 언급량
+
+을 생성하고 다음 달 흐름을 평가했습니다.
+
+관련 코드:
+
+- `src/21_build_issue_timeline.py`
+- `src/22_build_forecast_features.py`
+- `src/31_build_multi_issue_panel.py`
+- `src/32_train_multi_issue_forecast.py`
+
+기록된 평가 결과:
+
+- discussion continuation F1: **0.8814**
+- mention count MAE: **7.1224**
+- RMSE: **10.0425**
+- direction accuracy: **76%**
+
+### 8. Local LLM / Agent
+
+원문 외부 전송 제한을 고려해 local LLM을 비교·적용했습니다.
+
+검색 결과와 계산 결과를 LLM이 새로 만들어내는 구조가 아니라,
+검증된 결과를 설명하고 원문 근거를 연결하는 역할로 제한했습니다.
+
+관련 코드:
+
+- `agent/query_pipeline.py`
+- `agent/local_issue_agent.py`
+- `agent/tools.py`
+- `agent/followup_tools.py`
+
+### 9. Web / Final Integration
+
+검색·타임라인·전망·원문 근거·Agent 답변을 하나의 웹 실행 경로로 연결하고
+실행 결과를 점검했습니다.
+
+관련 코드:
+
+- `demo/final_app.py`
+- `src/24_build_web_payload.py`
+- `src/34_build_final_web_bundle.py`
+- `scripts/run_final_app.sh`
+- `docker-compose.yml`
+
+---
+
+## Development Provenance
+
+### Final source
+
+최종 제출 원본 소스에는 다음 구조가 존재합니다.
+
+```text
+agent/
+config/
+demo/
+docs/
+eval/
+results/
+scripts/
+src/
+docker-compose.yml
+requirements-*.txt
+```
+
+### Legacy source
+
+초기 ChromaDB / preprocessing 실험 코드는
+`legacy/initial_team_pipeline/`에 별도로 보존했습니다.
+
+### Why the original team commits look different
+
+기존 팀 저장소에서는 한 팀원이 통합하여 commit / push한 코드가 많아
+commit author만으로 실제 작성자를 판단하기 어렵습니다.
+
+따라서 이 저장소에서는 과거 commit author를 변경하지 않고,
+실제 담당 영역과 관련 코드·실험 결과를 명시하는 방식으로 기여도를 설명합니다.
+
+앞으로의 팀 프로젝트에서는 개인 branch, 기능 단위 commit, Pull Request를 사용합니다.
