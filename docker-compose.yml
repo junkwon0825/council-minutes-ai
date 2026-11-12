@@ -1,0 +1,25 @@
+services:
+  pgvector:
+    image: pgvector/pgvector:0.8.7-pg17
+    container_name: council-pgvector
+    restart: unless-stopped
+    shm_size: 1gb
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-council}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-council-local-only}
+      POSTGRES_DB: ${POSTGRES_DB:-council_vectors}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    command:
+      - postgres
+      - -c
+      - maintenance_work_mem=1GB
+      - -c
+      - shared_buffers=512MB
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-council} -d ${POSTGRES_DB:-council_vectors}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
