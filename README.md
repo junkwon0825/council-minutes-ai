@@ -109,6 +109,30 @@ Deduplication / Context Recovery
 Evidence
 ```
 
+## Final Analysis Pipeline
+
+최종 제출 원본의 후반 분석 파이프라인도 공개 저장소에 포함했습니다.
+
+| Stage | File |
+|---|---|
+| 이슈 확장 / 군집 후보 | `src/20_expand_cluster_issue.py` |
+| 이슈 타임라인 | `src/21_build_issue_timeline.py` |
+| 예측 feature | `src/22_build_forecast_features.py` |
+| 단일 이슈 예측 | `src/23_forecast_issue.py` |
+| 웹 payload 생성 | `src/24_build_web_payload.py` |
+| 이슈 후보 생성 | `src/25_build_issue_candidates.py` |
+| 후보 상태 확인 | `src/25a_show_candidate_status.py` |
+| clustering threshold sweep | `src/26_cluster_threshold_sweep.py` |
+| LLM extraction 평가셋 | `src/27_make_llm_extraction_evalset.py` |
+| 검수 이슈 확정 | `src/30_finalize_reviewed_issues.py` |
+| 다중 이슈 panel | `src/31_build_multi_issue_panel.py` |
+| 다중 이슈 forecast | `src/32_train_multi_issue_forecast.py` |
+| 외부 후속 흐름 | `src/32a_external_followup_flow.py` |
+| 자유 질의 분석 | `src/33_analyze_free_query.py` |
+| 최종 웹 bundle | `src/34_build_final_web_bundle.py` |
+
+> 28, 29 번호는 최종 소스에 별도 파일이 존재하지 않습니다.
+
 ## Local Agent / Web
 
 원문 외부 전송 제한을 고려해 답변 생성은 로컬 LLM을 사용했습니다. LLM이 근거를 새로 만드는 구조가 아니라 **검색된 회의록 근거를 설명하는 계층**으로 제한했습니다.
