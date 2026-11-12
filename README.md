@@ -195,6 +195,7 @@ agent/          Local LLM Agent / retrieval tools
 demo/           Streamlit web
 docs/           Architecture / decisions / troubleshooting
 legacy/         Early team-pipeline snapshot
+presentation/   Final presentation PDF
 scripts/        Execution / repository validation
 src/            Preprocessing / embedding / retrieval / analysis
 CONTRIBUTIONS.md
