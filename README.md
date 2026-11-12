@@ -178,7 +178,7 @@ docker-compose.yml
 requirements.txt
 ```
 
-## Public Repository Policy
+## Presentation\n\n최종 발표자료는 [presentation/README.md](presentation/README.md)에서 확인할 수 있습니다. 대용량 PPT 원본은 Drive 링크로 제공합니다.\n\n## Public Repository Policy
 
 다음 항목은 GitHub에 올리지 않습니다.
 
