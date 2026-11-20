@@ -156,7 +156,8 @@ bash scripts/run_final_app.sh
 ```text
 agent/          Local LLM Agent / retrieval tools
 demo/           Streamlit web
-docs/           Retrieval decision / troubleshooting
+docs/           Retrieval / LLM comparison / troubleshooting
+notebooks/      Search / forecast evaluation notebooks
 examples/       Public sample outputs
 legacy/         Initial team pipeline snapshot
 presentation/   Final presentation PDF
@@ -166,6 +167,14 @@ CONTRIBUTIONS.md
 docker-compose.yml
 requirements.txt
 ```
+
+## Experiment & Evaluation
+
+- [검색·예측 실험 Notebook](notebooks/02_experiments_and_forecast_evaluation.ipynb)
+- [3개월 기준선과 포아송 회귀 공정 비교](notebooks/03_three_month_vs_poisson_forecast.ipynb)
+- [한국산 로컬 LLM 비교](docs/LOCAL_LLM_COMPARISON.md)
+
+Notebook은 기록된 실험 결과 확인을 기본 모드로 두고, 대용량 임베딩·벡터 DB 자산이 있을 때만 원본 실험을 다시 실행하도록 구성했습니다.
 
 ## Presentation
 
